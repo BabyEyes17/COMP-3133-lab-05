@@ -1,3 +1,4 @@
+import Movie from '../models/movie.js';
 import MovieModel from '../models/movie.js';
 
 // Resolvers define the technique for fetching the types defined in the schema.
@@ -19,6 +20,27 @@ const resolvers = {
         searchMovieByDirectorName: async (_, { director_name }) => {
 
             return await Movie.find({ director_name }).sort({ release_date: -1 });
+        }
+    },
+
+    Mutation: {
+
+        addMovie: async (_, { input }) => {
+            
+            try {
+
+                const movie = await Movie.create({
+
+                    ...input
+                });
+
+                return { success: true, message: "Movie created", movie};
+            }
+
+            catch (e) {
+
+                return { success: false, message: e.message || "Failed to create movie", movie: null};
+            }
         }
     }
 
