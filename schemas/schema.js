@@ -44,7 +44,7 @@ const typeDefs = gql`
     }
 
 
-    
+
     type Query {
     
         getAllMovies: [Movie!]!
@@ -66,4 +66,4 @@ const typeDefs = gql`
     }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;
