@@ -41,7 +41,32 @@ const resolvers = {
 
                 return { success: false, message: e.message || "Failed to create movie", movie: null};
             }
-        }
+        },
+
+        updateMovieById: async (_, { input }) => {
+            
+            const update = { ...input };
+
+            try {
+
+                const updatedMovie = await Movie.findByIdAndUpdate(id, update, { new: true });
+
+                if (!updatedMovie) {
+                    return { success: false, message: "Movie not found", movie: null };
+                }
+
+                return { success: true, message: "Movie updated", movie: updatedMovie };
+            }
+
+            catch (e) {
+
+                return { success: false, message: e.message || "Failed to update movie", movie: null};
+            }
+        },
+
+        
+
+
     }
 
 
