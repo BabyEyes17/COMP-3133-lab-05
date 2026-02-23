@@ -1,5 +1,4 @@
 import Movie from '../models/movie.js';
-import MovieModel from '../models/movie.js';
 
 // Resolvers define the technique for fetching the types defined in the schema.
 
@@ -43,7 +42,7 @@ const resolvers = {
             }
         },
 
-        updateMovieById: async (_, { input }) => {
+        updateMovieById: async (_, { id, input }) => {
             
             const update = { ...input };
 
@@ -64,22 +63,35 @@ const resolvers = {
             }
         },
 
-        
+        deleteMovieById: async (_, { id }) => {
 
+            try {
 
+                const deletedMovie = await Movie.findByIdAndDelete(id)
+
+                if (!deletedMovie) {
+                    return { success: false, message: "Movie not found", movie: null };
+                }
+
+                return { success: true, message: "Movie deleted", movie: deletedMovie };
+            }
+
+            catch (e) {
+
+                return { success: false, message: e.message || "Failed to delete movie", movie: null };
+            }
+        }
+    },
+
+    Movie: {
+
+        release_date: (movie) => 
+            movie.release_date 
+                ? (movie.release_date instanceof Date 
+                    ? movie .release_date.toISOString() 
+                    : String(movie.release_date))
+                : null
     }
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+module.exports = resolvers;

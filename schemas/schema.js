@@ -3,7 +3,8 @@ import { gql } from 'graphql-tag';
 const typeDefs = gql`
 
     type Movie {
-    
+
+        _id: ID!
         name: String!
         director_name: String!
         production_house: String!
@@ -34,6 +35,16 @@ const typeDefs = gql`
     }
 
 
+
+    type MovieResponse {
+    
+        success: Boolean!
+        message: String!
+        movie: Movie
+    }
+
+
+    
     type Query {
     
         getAllMovies: [Movie!]!
@@ -47,11 +58,11 @@ const typeDefs = gql`
 
     type Mutation {
     
-        addMovie(input: AddMovieInput!): Movie!
+        addMovie(input: AddMovieInput!): MovieResponse!
 
-        updateMovieById(id: ID!, input: UpdateMovieInput!): Movie!
+        updateMovieById(id: ID!, input: UpdateMovieInput!): MovieResponse!
 
-        deleteMovieById(id: ID!): Movie!
+        deleteMovieById(id: ID!): MovieResponse!
     }
 `;
 
